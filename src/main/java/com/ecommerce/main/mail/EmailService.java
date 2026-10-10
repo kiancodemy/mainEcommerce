@@ -1,4 +1,6 @@
 package com.ecommerce.main.mail;
 
-public class EmailService {
+public interface EmailService {
+    void sendVerificationEmail(String to, String verifyLink);
+    void sendPasswordResetEmail(String to, String resetLink);
 }
