@@ -24,6 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -57,12 +58,6 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @CreatedBy
-    @Column(updatable = false)
-    private String createdBy;
-
-    @LastModifiedBy
-    private String updatedBy;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

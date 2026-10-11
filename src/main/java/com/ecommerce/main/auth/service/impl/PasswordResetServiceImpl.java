@@ -48,7 +48,6 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         if (resetPassToken.isUsed() || resetPassToken.getExpiresAt().isBefore(Instant.now())) {
             throw new RuntimeException("توکن منقضی شده");
         }
-
         userService.updatePassword(resetPassToken.getUser(), newPassword);
         resetPassToken.setUsed(true);
         passwordResetTokenRepositoy.save(resetPassToken);

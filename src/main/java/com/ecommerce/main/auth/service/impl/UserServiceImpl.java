@@ -2,6 +2,7 @@ package com.ecommerce.main.auth.service.impl;
 
 import com.ecommerce.main.auth.service.UserService;
 import com.ecommerce.main.user.entity.User;
+import com.ecommerce.main.user.enums.Role;
 import com.ecommerce.main.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("ایمیل قبلا استفاده شده");
         }
         String encodedPassword = passwordEncoder.encode(passWord);
-        User newUser = User.builder().email(email).password(encodedPassword).build();
+        User newUser = User.builder().email(email).password(encodedPassword).role(Role.USER).build();
         userRepository.save(newUser);
     }
 

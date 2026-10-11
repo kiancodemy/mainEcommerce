@@ -30,4 +30,10 @@ public class AuthController {
         String token = authService.login(request);
         return ResponseEntity.ok().body(new ApiResponse("ورود با موفقیت انجام شد", token));
     }
+
+    @PostMapping("logout")
+    public ResponseEntity<ApiResponse> login() {
+
+        return ResponseEntity.ok().body(new ApiResponse("خروج با موفقیت انجام شد", ""));
+    }
 }

@@ -7,10 +7,7 @@ import com.ecommerce.main.common.dto.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +16,7 @@ public class PasswordResetController {
     private final PasswordResetServiceImpl passwordResetService;
 
 
-    @GetMapping("forgetPassword")
+    @PostMapping("forgetPassword")
     public ResponseEntity<ApiResponse> forgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) {
         passwordResetService.forgotPassword(forgotPasswordRequest.email());
         return ResponseEntity.ok().body(new ApiResponse("لینک بازیابی رمز عبور به ایمیل شما ارسال شد", null));
@@ -27,7 +24,7 @@ public class PasswordResetController {
     }
 
 
-    @GetMapping("resetPassword")
+    @PostMapping("resetPassword")
     public ResponseEntity<ApiResponse> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
 
         passwordResetService.resetPassword(resetPasswordRequest.token(), resetPasswordRequest.newPassword());

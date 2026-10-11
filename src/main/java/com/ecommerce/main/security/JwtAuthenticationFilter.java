@@ -27,6 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 1. no header or wrong format: do nothing, let the request continue
         if (header == null || !header.startsWith("BEARER")) {
             filterChain.doFilter(request, response);
+            return;
         }
 
         // 2. cut off "Bearer "
