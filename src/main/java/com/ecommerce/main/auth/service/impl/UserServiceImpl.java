@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePassword(User user, String updatedPassword) {
         user.setPassword(passwordEncoder.encode(updatedPassword));
-        userRepository.save(user);
+
 
 
     }

@@ -1,0 +1,35 @@
+ALTER TABLE books
+    DROP CONSTRAINT "FK_BOOKS_ON_CATEGORY-ID";
+
+ALTER TABLE books
+    DROP CONSTRAINT "FK_BOOKS_ON_SUBCATEGORY-ID";
+
+ALTER TABLE sub_category
+    DROP CONSTRAINT "FK_SUBCATEGORY_ON_CATEGORY-ID";
+
+ALTER TABLE books
+    ADD category_id INTEGER;
+
+ALTER TABLE books
+    ADD sub_category_id INTEGER;
+
+ALTER TABLE sub_category
+    ADD category_id INTEGER;
+
+ALTER TABLE books
+    ADD CONSTRAINT FK_BOOKS_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES category (id);
+
+ALTER TABLE books
+    ADD CONSTRAINT FK_BOOKS_ON_SUBCATEGORY FOREIGN KEY (sub_category_id) REFERENCES sub_category (id);
+
+ALTER TABLE sub_category
+    ADD CONSTRAINT FK_SUBCATEGORY_ON_CATEGORY FOREIGN KEY (category_id) REFERENCES category (id);
+
+ALTER TABLE books
+    DROP COLUMN "category-id";
+
+ALTER TABLE books
+    DROP COLUMN "sub_category-id";
+
+ALTER TABLE sub_category
+    DROP COLUMN "category-id";

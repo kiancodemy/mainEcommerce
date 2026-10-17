@@ -1,4 +1,7 @@
 package com.ecommerce.main.category.dto;
 
-public record CategoryResponse() {
-}
+import lombok.Builder;
+
+public record CategoryResponse(Integer id,
+                               String name,
+                               boolean status) { }

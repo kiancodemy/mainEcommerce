@@ -50,6 +50,6 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         }
         userService.updatePassword(resetPassToken.getUser(), newPassword);
         resetPassToken.setUsed(true);
-        passwordResetTokenRepositoy.save(resetPassToken);
+
     }
 }

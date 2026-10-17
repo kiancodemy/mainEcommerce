@@ -4,6 +4,7 @@ import com.ecommerce.main.user.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -21,6 +22,7 @@ import java.util.List;
 @Builder
 @Setter
 @NoArgsConstructor
+@DynamicUpdate
 @AllArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)

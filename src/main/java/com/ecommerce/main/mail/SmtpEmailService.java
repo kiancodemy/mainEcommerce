@@ -17,11 +17,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class SmtpEmailService implements EmailService {
-
     private final EmailTemplateLoader emailTemplateLoader;
     private final JavaMailSender mailSender;
-
-
     @Value("${app.mail.from}")
     private String from;
 
@@ -33,7 +30,6 @@ public class SmtpEmailService implements EmailService {
                 "userName", ""   // optionally pass the user's name
         ));
         send(to, "تأیید ایمیل حساب کاربری", html);
-
     }
 
     @Override
@@ -43,8 +39,6 @@ public class SmtpEmailService implements EmailService {
                 "resetLink", resetLink
         ));
         send(to, "بازیابی رمز عبور", html);
-
-
     }
 
     private void send(String to, String subject, String html) {
@@ -58,16 +52,14 @@ public class SmtpEmailService implements EmailService {
             mailSender.send(message);
         } catch (Exception e) {
             log.error("Failed to send email to {}", to, e);
-        }
-    }
+        }}
 
     private String render(String templateName, Map<String, String> variables) {
         String html = emailTemplateLoader.load(templateName);
         for (var entry : variables.entrySet()) {
             html = html.replace("{{" + entry.getKey() + "}}", entry.getValue());
         }
-        return html;
-    }
+        return html;}
 
 }
 

@@ -19,6 +19,8 @@ spring:
     locations: classpath:db/migration
 
 app:
+  upload-dir: uploads
+  public-url: ${PUBLIC_URL:localhost:9091/}
 
   mail:
     from: no-reply@ecommercewebsite

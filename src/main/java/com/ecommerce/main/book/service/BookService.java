@@ -7,5 +7,8 @@ import com.ecommerce.main.book.entity.Book;
 public interface BookService {
     Book createBook(CreateBookRequest request);
     Book updateBook( UpdateBookRequest request);
+    void deActivateBook(Integer id);
+    void activateBook(Integer id);
+
 
 }

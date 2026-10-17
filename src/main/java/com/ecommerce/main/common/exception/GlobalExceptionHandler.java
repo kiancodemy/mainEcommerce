@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +14,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ApiResponse> handleValidationErrors(
+            UsernameNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(InvalidFileException.class)
+    public ResponseEntity<ApiResponse> handleValidationErrors(
+            InvalidFileException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(ex.getMessage(), null));
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse> handleValidationErrors(
@@ -34,8 +48,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse> handleGeneric(
             Exception ex, HttpServletRequest request) {
-
-        log.error("Unhandled exception at {}: {}", request.getRequestURI(), ex.getMessage(), ex);
 
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR).
