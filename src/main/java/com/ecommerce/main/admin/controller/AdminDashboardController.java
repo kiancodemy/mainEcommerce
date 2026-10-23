@@ -9,4 +9,5 @@ import org.springframework.web.bind.annotation.RestController;
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminDashboardController {
     // statistics and reports
+    
 }
