@@ -1,17 +1,18 @@
 package com.ecommerce.main.book.entity;
 
 
+import com.ecommerce.main.book.enums.Languages;
 import com.ecommerce.main.category.entity.Category;
 import com.ecommerce.main.subcategory.entity.SubCategory;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+
 @DynamicUpdate
 @Entity
 @Table(name = "books")
@@ -30,21 +31,15 @@ public class Book {
     @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean status = true;
 
-    @Column(length = 400)
-    private String description;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Languages language;
 
-    @Column(length = 200)
-    private String publisher;
-
-    @Column(length = 40)
-    private String translator;
-
-    @Column(nullable = false, length = 15)
-    private String language;
-
-    private Integer publicationYear;
-
+    @Column(nullable = false)
     private Integer pages;
 
     @Column(nullable = false, precision = 12)
@@ -56,22 +51,31 @@ public class Book {
     @Column(nullable = false)
     private int stock;
 
+    @Column(nullable = false)
+    private Integer publicationYear;
+
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @Column(length = 200)
+    private String publisher;
+
+    @Column(length = 40)
+    private String translator;
+
+
     @Column(length = 500)
     private String coverImageUrl;
 
-    @Column(nullable = false)
-    @Builder.Default
-    private boolean status = true;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="category_id")
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="subCategory_id")
+    @JoinColumn(name = "subCategory_id")
     private SubCategory subCategory;
-
 
 
     @CreatedDate

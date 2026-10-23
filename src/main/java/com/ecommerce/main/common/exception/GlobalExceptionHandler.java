@@ -18,13 +18,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ApiResponse> handleValidationErrors(
             UsernameNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(ex.getMessage(), null));
+    }
+
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ApiResponse> handleValidationErrors(
+            BusinessException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(ex.getMessage(), null));
     }
 
-    @ExceptionHandler(InvalidFileException.class)
+
+    @ExceptionHandler(FileStorageException .class)
     public ResponseEntity<ApiResponse> handleValidationErrors(
-            InvalidFileException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(ex.getMessage(), null));
+            FileStorageException  ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(ex.getMessage(), null));
     }
 
 

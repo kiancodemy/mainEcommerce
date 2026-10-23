@@ -1,5 +1,6 @@
 package com.ecommerce.main.book.dto;
 
+import com.ecommerce.main.book.enums.Languages;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
@@ -19,15 +20,14 @@ public record CreateBookRequest(
         @Size(max = 40, message = "نام مترجم نمی‌تواند بیشتر از ۴۰ کاراکتر باشد")
         String translator,
 
-        @NotBlank(message = "زبان کتاب الزامی است")
-        @Size(max = 15, message = "زبان کتاب نمی‌تواند بیشتر از ۱۵ کاراکتر باشد")
-        String language,
+        @NotNull(message = "زبان کتاب الزامی است")
+        Languages language,
 
         @Min(value = 1000, message = "سال انتشار باید حداقل ۱۰۰۰ باشد")
         @Max(value = 2100, message = "سال انتشار باید حداکثر ۲۱۰۰ باشد")
         Integer publicationYear,
 
-        @Min(value = 1, message = "تعداد صفحات باید حداقل ۱ باشد")
+        @Min(value = 1, message = "تعداد صفحات باید حداقل ۱ باشد") @NotNull(message = "تعداد صفحات کتاب الزامی است")
         Integer pages,
 
         @NotNull(message = "قیمت کتاب الزامی است")
@@ -45,8 +45,6 @@ public record CreateBookRequest(
         @Min(value = 0, message = "موجودی کتاب نمی‌تواند منفی باشد")
         Integer stock,
 
-        @Size(max = 500, message = "آدرس تصویر جلد نمی‌تواند بیشتر از ۵۰۰ کاراکتر باشد")
-        String coverImageUrl,
 
         @NotNull(message = "انتخاب دسته‌بندی الزامی است")
         Integer categoryId,

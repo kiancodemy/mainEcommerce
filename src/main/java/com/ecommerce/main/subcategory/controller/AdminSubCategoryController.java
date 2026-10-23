@@ -12,9 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -23,7 +21,6 @@ import java.util.List;
 public class AdminSubCategoryController {
     private final SubCategoryServiceImpl subCategoryService;
     private final SubCategoryMapper subCategoryMapper;
-    private final FileStorageService fileStorageService;
 
     @PostMapping("createsubCategory")
     public ResponseEntity<ApiResponse> createSubCategory(@Valid @RequestBody CreateSubCategory request) {
@@ -57,11 +54,7 @@ public class AdminSubCategoryController {
         return ResponseEntity.ok().body(new ApiResponse("به روز رسانی شد", null));
     }
 
-    @GetMapping("get/{id}")
-    public ResponseEntity<ApiResponse> aget(@PathVariable String id, @RequestParam("file") MultipartFile file) throws IOException {
-        String save = fileStorageService.save(file, id);
-        return ResponseEntity.ok().body(new ApiResponse(save, null));
-    }
+
 
 
 }
