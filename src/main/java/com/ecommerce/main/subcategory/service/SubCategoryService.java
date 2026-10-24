@@ -9,9 +9,9 @@ import java.util.List;
 public interface SubCategoryService {
     SubCategory createsubCategory(CreateSubCategory request);
 
-    void deactivateSubCategory(Integer id);
+    void deactivateSubCategory(Long  id);
 
-    void activateSubCategory(Integer id);
+    void activateSubCategory(Long  id);
 
     List<SubCategory> getAllSubCategories();
 

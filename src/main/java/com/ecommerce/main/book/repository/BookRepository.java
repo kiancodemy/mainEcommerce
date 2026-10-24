@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface BookRepository extends JpaRepository<Book, Integer> {
+public interface BookRepository extends JpaRepository<Book, Long > {
 
     @Query("select s from Book s where s.id=?1 and s.status=true")
     Optional<Book> findByIdAndStatusTrue(Integer id);

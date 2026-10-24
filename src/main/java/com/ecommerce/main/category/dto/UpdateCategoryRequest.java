@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public record UpdateCategoryRequest(
-        @NotNull(message ="شناسه الزامی است" ) @Positive(message = "اعداد باید مثیت باشند") Integer id,
+        @NotNull(message ="شناسه الزامی است" ) @Positive(message = "اعداد باید مثیت باشند") Long id,
         @NotBlank(message = "نام دسته‌بندی الزامی است")
         @Size(max = 40, message = "نام دسته‌بندی نمی‌تواند بیشتر از ۴۰ کاراکتر باشد")
         String name

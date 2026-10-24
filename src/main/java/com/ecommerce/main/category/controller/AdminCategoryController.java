@@ -31,14 +31,14 @@ public class AdminCategoryController {
     }
 
     @PutMapping("deactivate/{id}")
-    public ResponseEntity<ApiResponse> deactivateCategory(@PathVariable("id") Integer id) {
+    public ResponseEntity<ApiResponse> deactivateCategory(@PathVariable("id") Long  id) {
         CategoryResponse categoryResponse = categoryService.deActivateCategory(id);
 
         return ResponseEntity.ok().body(new ApiResponse("دسته غیرفعال شد", categoryResponse));
     }
 
     @PutMapping("activate/{id}")
-    public ResponseEntity<ApiResponse> activateCategory(@PathVariable("id") Integer id) {
+    public ResponseEntity<ApiResponse> activateCategory(@PathVariable("id") Long  id) {
         CategoryResponse categoryResponse = categoryService.activateCategory(id);
         return ResponseEntity.ok().body(new ApiResponse("دسته فعال شد", categoryResponse));
     }

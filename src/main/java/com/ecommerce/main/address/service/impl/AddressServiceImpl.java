@@ -22,32 +22,32 @@ public class AddressServiceImpl {
     private final AddressMapper mapper;
 
     @Transactional(readOnly = true)
-    public List<AddressResponse> findAll(Integer userId) {
+    public List<AddressResponse> findAll(Long userId) {
         return mapper.toResponses(repository.findByUserIdOrderByCreatedAtDesc(userId));
     }
 
     @Transactional(readOnly = true)
-    public AddressResponse findOne(Integer userId, Integer id) {
+    public AddressResponse findOne(Long userId, Long id) {
         return mapper.toResponse(getOwned(userId, id));
     }
 
-    public AddressResponse create(Integer userId, AddressRequest request) {
+    public AddressResponse create(Long userId, AddressRequest request) {
         Address address = mapper.toEntity(userId, request);
         return mapper.toResponse(repository.save(address));
     }
 
-    public AddressResponse update(Integer userId, Integer id, AddressRequest request) {
+    public AddressResponse update(Long userId, Long id, AddressRequest request) {
         Address address = getOwned(userId, id);
         mapper.updateEntity(request, address);
         return mapper.toResponse(address); // saved by dirty checking
     }
 
-    public void delete(Integer userId, Integer id) {
+    public void delete(Long userId, Long id) {
         repository.delete(getOwned(userId, id));
     }
 
     // Filtering by userId prevents users from accessing others' addresses.
-    private Address getOwned(Integer userId, Integer id) {
+    private Address getOwned(Long userId, Long id) {
         return repository.findByIdAndUserId(id, userId)
                 .orElseThrow(AddressNotFoundException::new);
     }

@@ -6,7 +6,7 @@ import com.ecommerce.main.subcategory.entity.SubCategory;
 import java.util.Set;
 
 public record AdminCategoryResponse(
-        Integer id,
+        Long  id,
         String name,
 
         boolean status,

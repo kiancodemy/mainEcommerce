@@ -29,7 +29,7 @@ public class CartServiceImpl implements CartService {
     private final CartMapper cartMapper;
 
     @Override
-    public CartResponse addItem(Integer id, AddCartItemRequest request) {
+    public CartResponse addItem(Long  id, AddCartItemRequest request) {
         Cart cart = cartRepositroy.findByUserId(id)
                 .orElseGet(() -> createCard(id));
         Book findBook = bookRepository.findById(request.bookId()).orElseThrow(() ->
@@ -55,7 +55,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartResponse removeItem(Integer id, Long bookId) {
+    public CartResponse removeItem(Long  id, Long bookId) {
         Cart cart = cartRepositroy.findByUserId(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
 
@@ -69,7 +69,7 @@ public class CartServiceImpl implements CartService {
         return cartMapper.toCartResponse(cart);}
 
     @Override
-    public CartResponse clearCart(Integer id) {
+    public CartResponse clearCart(Long  id) {
         Cart cart = cartRepositroy.findByUserId(id).orElse(null);
 
         if (cart == null) {
@@ -82,13 +82,13 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional(readOnly = true)
-    public CartResponse getCart(Integer id) {
+    public CartResponse getCart(Long  id) {
         cartRepositroy.findByUserId(id).orElse(null);
         return cartMapper.empty();
     }
 
     //CREATE NEW CARD FOR USER IF HE IT IS HS HIS FIRST TIME TO BUT SOMETINHG///
-    private Cart createCard(Integer id) {
+    private Cart createCard(Long  id) {
         Cart cart = new Cart();
         cart.setUser(userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("کاربر یافت نشد")));
         return cartRepositroy.save(cart);

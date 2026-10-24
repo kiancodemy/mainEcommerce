@@ -4,7 +4,7 @@ import com.ecommerce.main.book.enums.Languages;
 
 import java.math.BigDecimal;
 
-public record AdminBookResponse(Integer id,
+public record AdminBookResponse(Long  id,
                                 String title,
                                 Boolean status,
                                 String description,

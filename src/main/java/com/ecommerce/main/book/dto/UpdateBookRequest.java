@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 public record UpdateBookRequest(
         @NotNull(message = "شناسه کتاب الزامی است")
-        Integer id,
+        Long id,
 
         @NotBlank(message = "عنوان کتاب الزامی است")
         @Size(max = 255, message = "عنوان کتاب نمی‌تواند بیشتر از ۲۵۵ کاراکتر باشد")

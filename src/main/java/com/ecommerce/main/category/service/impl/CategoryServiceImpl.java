@@ -37,7 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponse deActivateCategory(Integer id) {
+    public CategoryResponse deActivateCategory(Long  id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("دسته بندی یافت نشد"));
 
@@ -47,7 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponse activateCategory(Integer id) {
+    public CategoryResponse activateCategory(Long  id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("دسته بندی یافت نشد"));
         category.setStatus(true);

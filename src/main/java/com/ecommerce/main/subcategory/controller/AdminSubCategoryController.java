@@ -29,14 +29,14 @@ public class AdminSubCategoryController {
     }
 
     @PutMapping("deactivate/{id}")
-    public ResponseEntity<ApiResponse> deactivateSubCategory(@PathVariable("id") Integer id) {
+    public ResponseEntity<ApiResponse> deactivateSubCategory(@PathVariable("id") Long  id) {
         subCategoryService.deactivateSubCategory(id);
 
         return ResponseEntity.ok().body(new ApiResponse("زیر دسته غیرفعال شد", null));
     }
 
     @PutMapping("activate/{id}")
-    public ResponseEntity<ApiResponse> activateSubCategory(@PathVariable("id") Integer id) {
+    public ResponseEntity<ApiResponse> activateSubCategory(@PathVariable("id") Long id) {
         subCategoryService.activateSubCategory(id);
         return ResponseEntity.ok().body(new ApiResponse("زیر دسته فعال شد", null));
     }

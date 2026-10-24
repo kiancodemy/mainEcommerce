@@ -10,9 +10,9 @@ import java.util.List;
 public interface CategoryService {
     CategoryResponse createCategory(CreateCategoryRequest name);
 
-    CategoryResponse deActivateCategory(Integer id);
+    CategoryResponse deActivateCategory(Long  id);
 
-    CategoryResponse activateCategory(Integer id);
+    CategoryResponse activateCategory(Long  id);
 
     List<AdminCategoryResponse> GetAllCategories();
 

@@ -5,7 +5,7 @@ import com.ecommerce.main.address.entity.Address;
 import java.time.Instant;
 
 public record AddressResponse(
-        Integer id,
+        Long id,
         String province,
         String city,
         String postalCode,

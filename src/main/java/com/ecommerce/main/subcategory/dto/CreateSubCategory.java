@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public record CreateSubCategory(
-        @NotNull(message = "شناسه الزامی است") @Positive(message = "اعداد باید مثیت باشند")  Integer categoryId,
+        @NotNull(message = "شناسه الزامی است") @Positive(message = "اعداد باید مثیت باشند")  Long  categoryId,
         @NotBlank(message = "نام دسته‌بندی الزامی است")
         @Size(max = 40, message = "نام دسته‌بندی نمی‌تواند بیشتر از ۴۰ کاراکتر باشد")
         String name) {

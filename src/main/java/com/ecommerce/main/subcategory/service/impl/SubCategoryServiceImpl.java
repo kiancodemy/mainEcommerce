@@ -34,14 +34,14 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     }
 
     @Override
-    public void deactivateSubCategory(Integer id) {
+    public void deactivateSubCategory(Long  id) {
         SubCategory subCategory = subCategoryRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("ریز دسته یافت نشد"));
         subCategory.setStatus(false);
     }
 
     @Override
 
-    public void activateSubCategory(Integer id) {
+    public void activateSubCategory(Long  id) {
         SubCategory subCategory = subCategoryRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("ریز دسته یافت نشد"));
         subCategory.setStatus(true);
     }

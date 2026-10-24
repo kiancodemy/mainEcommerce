@@ -19,18 +19,11 @@ import org.springframework.web.bind.annotation.*;
 class CartController {
     private final CartServiceImpl cartService;
 
-    @PostMapping("addCard")
-    public ResponseEntity<ApiResponse> AddToCard(Authentication authentication, @Valid @RequestBody AddCartItemRequest request) {
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        CartResponse cartResponse = cartService.addItem(userDetails.getId(), request);
-        return ResponseEntity.ok().body(new ApiResponse("موفقیت امیز بود", cartResponse));
-    }
-
     @GetMapping
-    public CartResponse getCart(Authentication authentication) {
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+    public ResponseEntity<ApiResponse> getCart(@AuthenticationPrincipal(expression = "id") Integer id) {
 
-        return cartService.getCart(userDetails.getId());
+        CartResponse cart = cartService.getCart(id);
+        return ResponseEntity.ok().body(new ApiResponse("با موفقیت بازیابی شد", cart));
     }
 
     @PostMapping("/items")

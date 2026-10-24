@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface BookService {
     Book createBook(CreateBookRequest request);
     Book updateBook( UpdateBookRequest request);
-    String uploadImage(MultipartFile file,Integer id);
+    String uploadImage(MultipartFile file,Long  id);
 
 
 

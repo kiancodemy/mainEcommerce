@@ -64,7 +64,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public String uploadImage(MultipartFile file, Integer id) {
+    public String uploadImage(MultipartFile file, Long  id) {
         try {
 
             Book book = bookRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("کتاب مورد نظر یافت نشد"));

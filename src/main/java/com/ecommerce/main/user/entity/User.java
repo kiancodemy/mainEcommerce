@@ -24,7 +24,7 @@ public class User  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+    private Long id;
 
     private String name;
 

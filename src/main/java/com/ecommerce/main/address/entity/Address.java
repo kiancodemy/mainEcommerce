@@ -22,10 +22,10 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
 
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
-    private Integer userId;
+    private Long userId;
 
 
     @Column(nullable = false, length = 100)

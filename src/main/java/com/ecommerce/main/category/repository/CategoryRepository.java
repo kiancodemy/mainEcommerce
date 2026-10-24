@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface CategoryRepository extends JpaRepository<Category, Integer> {
+public interface CategoryRepository extends JpaRepository<Category, Long > {
     boolean existsByNameIgnoreCase(String name);
 
     @EntityGraph(attributePaths = "subCategories")

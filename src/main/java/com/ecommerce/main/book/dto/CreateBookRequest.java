@@ -47,9 +47,9 @@ public record CreateBookRequest(
 
 
         @NotNull(message = "انتخاب دسته‌بندی الزامی است")
-        Integer categoryId,
+        Long  categoryId,
 
         @NotNull(message = "انتخاب زیردسته الزامی است")
-        Integer subcategoryId
+        Long  subcategoryId
 ) {
 }
