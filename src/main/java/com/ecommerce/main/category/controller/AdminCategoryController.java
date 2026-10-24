@@ -5,7 +5,6 @@ import com.ecommerce.main.category.dto.CategoryResponse;
 import com.ecommerce.main.category.dto.CreateCategoryRequest;
 import com.ecommerce.main.category.dto.UpdateCategoryRequest;
 import com.ecommerce.main.category.entity.Category;
-import com.ecommerce.main.category.mapper.CategoryMapper;
 import com.ecommerce.main.category.service.impl.CategoryServiceImpl;
 import com.ecommerce.main.common.dto.ApiResponse;
 import jakarta.validation.Valid;
@@ -21,39 +20,39 @@ import java.util.List;
 //@PreAuthorize("hasRole('ADMIN')")//
 public class AdminCategoryController {
     private final CategoryServiceImpl categoryService;
-    private final CategoryMapper categoryMapper;
 
 
-    @PostMapping("createCategory")
+
+    @PostMapping
     public ResponseEntity<ApiResponse> createCategory(@Valid @RequestBody CreateCategoryRequest request) {
-        Category category = categoryService.createCategory(request);
-        CategoryResponse response = categoryMapper.toResponse(category);
-        return ResponseEntity.ok().body(new ApiResponse("دسته جدید ایجاد شد", response));
+        CategoryResponse category = categoryService.createCategory(request);
+
+        return ResponseEntity.ok().body(new ApiResponse("دسته جدید ایجاد شد", category));
     }
 
     @PutMapping("deactivate/{id}")
     public ResponseEntity<ApiResponse> deactivateCategory(@PathVariable("id") Integer id) {
-        categoryService.deActivateCategory(id);
+        CategoryResponse categoryResponse = categoryService.deActivateCategory(id);
 
-        return ResponseEntity.ok().body(new ApiResponse("دسته غیرفعال شد", null));
+        return ResponseEntity.ok().body(new ApiResponse("دسته غیرفعال شد", categoryResponse));
     }
 
     @PutMapping("activate/{id}")
     public ResponseEntity<ApiResponse> activateCategory(@PathVariable("id") Integer id) {
-        categoryService.activateCategory(id);
-        return ResponseEntity.ok().body(new ApiResponse("دسته فعال شد", null));
+        CategoryResponse categoryResponse = categoryService.activateCategory(id);
+        return ResponseEntity.ok().body(new ApiResponse("دسته فعال شد", categoryResponse));
     }
 
-    @GetMapping("allCategory")
-    public ResponseEntity<ApiResponse> activateCategory() {
-        List<Category> categories = categoryService.GetAllCategories();
-        List<AdminCategoryResponse> adminCategoryResponses = categoryMapper.toAllCategoryResponse(categories);
+    @GetMapping
+    public ResponseEntity<ApiResponse> getAllCategories() {
+        List<AdminCategoryResponse> adminCategoryResponses = categoryService.GetAllCategories();
+
         return ResponseEntity.ok().body(new ApiResponse("بازیابی شد", adminCategoryResponses));
     }
 
-    @PutMapping("updatecategory")
+    @PutMapping
     public ResponseEntity<ApiResponse> updateCategory(@Valid @RequestBody UpdateCategoryRequest request) {
-        categoryService.updateCategoryRequest(request);
-        return ResponseEntity.ok().body(new ApiResponse("به روز رسانی شد", null));
+        CategoryResponse categoryResponse = categoryService.updateCategoryRequest(request);
+        return ResponseEntity.ok().body(new ApiResponse("به روز رسانی شد", categoryResponse));
     }
 }

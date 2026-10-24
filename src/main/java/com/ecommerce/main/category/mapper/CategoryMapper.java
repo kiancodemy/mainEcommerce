@@ -17,7 +17,7 @@ public class CategoryMapper {
         return new CategoryResponse(category.getId(), category.getName(), category.isStatus());
     }
 
-    public List<AdminCategoryResponse> toAllCategoryResponse(List<Category> categories) {
+    public List<AdminCategoryResponse> toResponse(List<Category> categories) {
         return
                 categories.stream().map(c -> new AdminCategoryResponse(
                         c.getId(),

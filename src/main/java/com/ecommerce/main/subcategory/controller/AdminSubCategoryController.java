@@ -22,7 +22,7 @@ public class AdminSubCategoryController {
     private final SubCategoryServiceImpl subCategoryService;
     private final SubCategoryMapper subCategoryMapper;
 
-    @PostMapping("createsubCategory")
+    @PostMapping
     public ResponseEntity<ApiResponse> createSubCategory(@Valid @RequestBody CreateSubCategory request) {
         subCategoryService.createsubCategory(request);
         return ResponseEntity.ok().body(new ApiResponse(" زیر دسته جدید ایجاد شد", null));
@@ -41,14 +41,14 @@ public class AdminSubCategoryController {
         return ResponseEntity.ok().body(new ApiResponse("زیر دسته فعال شد", null));
     }
 
-    @GetMapping("allsubCategory")
+    @GetMapping
     public ResponseEntity<ApiResponse> activateSubCategory() {
         List<SubCategory> allSubCategory = subCategoryService.getAllSubCategories();
         List<SubCategoryResponse> allCategoryResponse = subCategoryMapper.toAllSubCategoryResponse(allSubCategory);
         return ResponseEntity.ok().body(new ApiResponse("بازیابی شد", allCategoryResponse));
     }
 
-    @PutMapping("updatesubcategory")
+    @PutMapping
     public ResponseEntity<ApiResponse> updateSubCategory(@Valid @RequestBody UpdateSubCategory request) {
         subCategoryService.updateSubCategory(request);
         return ResponseEntity.ok().body(new ApiResponse("به روز رسانی شد", null));

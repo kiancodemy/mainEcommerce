@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class SubCategoryServiceImpl implements SubCategoryService {
@@ -40,13 +40,14 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     }
 
     @Override
-    @Transactional
+
     public void activateSubCategory(Integer id) {
         SubCategory subCategory = subCategoryRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("ریز دسته یافت نشد"));
         subCategory.setStatus(true);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<SubCategory> getAllSubCategories() {
         return subCategoryRepository.findAll();
     }

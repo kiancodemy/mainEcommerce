@@ -23,6 +23,7 @@ import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final SubCategoryRepository subCategoryRepository;
@@ -32,7 +33,7 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
-    @Transactional
+
     public Book createBook(CreateBookRequest request) {
         SubCategory subcategory = subCategoryRepository.findById(request.subcategoryId()).orElseThrow(() -> new RuntimeException("زیر گروه موجود نیست"));
 
@@ -46,7 +47,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional
+
     public Book updateBook(UpdateBookRequest request) {
 
         SubCategory subcategory = subCategoryRepository.findById(request.subcategoryId()).orElseThrow(() -> new RuntimeException("زیر گروه موجود نیست"));

@@ -12,13 +12,16 @@ import com.ecommerce.main.cartItems.CartItems;
 import com.ecommerce.main.common.exception.BusinessException;
 import com.ecommerce.main.common.exception.ResourceNotFoundException;
 import com.ecommerce.main.user.repository.UserRepository;
-import jakarta.transaction.Transactional;
+
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class CartServiceImpl implements CartService {
     private final UserRepository userRepository;
     private final CartRepositroy cartRepositroy;
@@ -26,10 +29,9 @@ public class CartServiceImpl implements CartService {
     private final CartMapper cartMapper;
 
     @Override
-    @Transactional
-    public CartResponse addItem(String email, AddCartItemRequest request) {
-        Cart cart = cartRepositroy.findByUserEmail(email)
-                .orElseGet(() -> createCard(email));
+    public CartResponse addItem(Integer id, AddCartItemRequest request) {
+        Cart cart = cartRepositroy.findByUserId(id)
+                .orElseGet(() -> createCard(id));
         Book findBook = bookRepository.findById(request.bookId()).orElseThrow(() ->
                 new ResourceNotFoundException("کتاب موجود نیست"));
         CartItems cartItems = cart.getItems().stream().filter(b -> b.getBook().getId().equals(request.bookId())).findFirst().orElse(null);
@@ -53,9 +55,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    @Transactional
-    public CartResponse removeItem(String email, Long bookId) {
-        Cart cart = cartRepositroy.findByUserEmail(email)
+    public CartResponse removeItem(Integer id, Long bookId) {
+        Cart cart = cartRepositroy.findByUserId(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
 
         boolean removed = cart.getItems()
@@ -64,16 +65,12 @@ public class CartServiceImpl implements CartService {
         if (!removed) {
             throw new ResourceNotFoundException("Book is not in the cart");
         }
-        ;
-        return cartMapper.toCartResponse(cart);
 
-
-    }
+        return cartMapper.toCartResponse(cart);}
 
     @Override
-    @Transactional
-    public CartResponse clearCart(String email) {
-        Cart cart = cartRepositroy.findByUserEmail(email).orElse(null);
+    public CartResponse clearCart(Integer id) {
+        Cart cart = cartRepositroy.findByUserId(id).orElse(null);
 
         if (cart == null) {
             return cartMapper.empty();          // no cart yet, so there is nothing to clear
@@ -84,15 +81,16 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartResponse getCart(String email) {
-        cartRepositroy.findByUserEmail(email).orElse(null);
+    @Transactional(readOnly = true)
+    public CartResponse getCart(Integer id) {
+        cartRepositroy.findByUserId(id).orElse(null);
         return cartMapper.empty();
     }
 
     //CREATE NEW CARD FOR USER IF HE IT IS HS HIS FIRST TIME TO BUT SOMETINHG///
-    private Cart createCard(String email) {
+    private Cart createCard(Integer id) {
         Cart cart = new Cart();
-        cart.setUser(userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("کاربر یافت نشد")));
+        cart.setUser(userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("کاربر یافت نشد")));
         return cartRepositroy.save(cart);
 
 

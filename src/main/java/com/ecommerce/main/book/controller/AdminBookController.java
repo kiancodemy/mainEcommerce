@@ -6,7 +6,6 @@ import com.ecommerce.main.book.dto.UpdateBookRequest;
 import com.ecommerce.main.book.entity.Book;
 import com.ecommerce.main.book.mapper.BookMapper;
 import com.ecommerce.main.book.service.impl.BookServiceImpl;
-import com.ecommerce.main.common.components.FileStorageService;
 import com.ecommerce.main.common.dto.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +23,9 @@ import java.io.IOException;
 public class AdminBookController {
     private final BookServiceImpl bookService;
     private final BookMapper bookMapper;
-    private final FileStorageService fileStorageService;
 
 
-    @PostMapping("createNewBook")
+    @PostMapping
     public ResponseEntity<ApiResponse> createNewBook(@Valid @RequestBody CreateBookRequest request) {
         Book book = bookService.createBook(request);
         AdminBookResponse adminResponse = bookMapper.toAdminResponse(book);
@@ -36,7 +34,7 @@ public class AdminBookController {
 
     }
 
-    @PutMapping("updateBook")
+    @PutMapping
     public ResponseEntity<ApiResponse> updateBook(@Valid @RequestBody UpdateBookRequest request) {
         Book book = bookService.updateBook(request);
         AdminBookResponse adminResponse = bookMapper.toAdminResponse(book);

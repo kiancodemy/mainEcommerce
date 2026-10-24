@@ -4,6 +4,7 @@ import com.ecommerce.main.auth.dto.LoginRequest;
 import com.ecommerce.main.auth.dto.SignupRequest;
 import com.ecommerce.main.auth.service.AuthService;
 import com.ecommerce.main.security.CustomUserDetailsService;
+import com.ecommerce.main.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,13 +31,15 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public String login(LoginRequest request) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.email());
+
+
         boolean isPasswordCorrect = passwordEncoder.matches(request.password(), userDetails.getPassword());
         if (!isPasswordCorrect) {
 
             throw new RuntimeException("رمز عبور صحیح نیست");
         }
         String authToken = jwtService.generateToken(userDetails);
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities()));
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
         return authToken;
     }
 }
