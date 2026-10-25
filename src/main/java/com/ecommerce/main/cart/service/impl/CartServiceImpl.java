@@ -8,7 +8,7 @@ import com.ecommerce.main.cart.entity.Cart;
 import com.ecommerce.main.cart.mapper.CartMapper;
 import com.ecommerce.main.cart.repositroy.CartRepositroy;
 import com.ecommerce.main.cart.service.CartService;
-import com.ecommerce.main.cartItems.CartItems;
+import com.ecommerce.main.cartItems.CartItem;
 import com.ecommerce.main.common.exception.BusinessException;
 import com.ecommerce.main.common.exception.ResourceNotFoundException;
 import com.ecommerce.main.user.repository.UserRepository;
@@ -34,8 +34,8 @@ public class CartServiceImpl implements CartService {
                 .orElseGet(() -> createCard(id));
         Book findBook = bookRepository.findById(request.bookId()).orElseThrow(() ->
                 new ResourceNotFoundException("کتاب موجود نیست"));
-        CartItems cartItems = cart.getItems().stream().filter(b -> b.getBook().getId().equals(request.bookId())).findFirst().orElse(null);
-        int quantity = cartItems == null ? request.quantity() : cartItems.getQuantity() + request.quantity();
+        CartItem cartItem = cart.getItems().stream().filter(b -> b.getBook().getId().equals(request.bookId())).findFirst().orElse(null);
+        int quantity = cartItem == null ? request.quantity() : cartItem.getQuantity() + request.quantity();
 
         if (quantity > findBook.getStock()) {
             throw new BusinessException(
@@ -43,13 +43,13 @@ public class CartServiceImpl implements CartService {
                             + " ، درخواستی: " + quantity
             );
         }
-        if (cartItems == null) {
-            cartItems = CartItems.builder().cart(cart).quantity(quantity).book(findBook).build();
-            cart.getItems().add(cartItems);
+        if (cartItem == null) {
+            cartItem = CartItem.builder().cart(cart).quantity(quantity).book(findBook).build();
+            cart.getItems().add(cartItem);
 
         }
 
-        cartItems.setQuantity(quantity);
+        cartItem.setQuantity(quantity);
         cartRepositroy.save(cart);
         return cartMapper.toCartResponse(cart);
     }

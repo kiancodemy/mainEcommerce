@@ -1,14 +1,9 @@
 package com.ecommerce.main.address.entity;
 
-import com.ecommerce.main.user.entity.User;
+import com.ecommerce.main.common.components.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-
-import java.time.Instant;
 
 @Entity
 @Getter
@@ -17,7 +12,7 @@ import java.time.Instant;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address {
+public class Address extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -46,9 +41,4 @@ public class Address {
     @Column(length = 500)
     private String description;
 
-    @CreatedDate
-    private Instant createdAt;
-
-    @LastModifiedDate
-    private Instant updatedAt;
 }

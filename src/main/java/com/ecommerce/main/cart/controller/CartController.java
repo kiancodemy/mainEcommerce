@@ -20,14 +20,14 @@ class CartController {
     private final CartServiceImpl cartService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse> getCart(@AuthenticationPrincipal(expression = "id") Integer id) {
+    public ResponseEntity<ApiResponse> getCart(@AuthenticationPrincipal(expression = "id") Long id) {
 
         CartResponse cart = cartService.getCart(id);
         return ResponseEntity.ok().body(new ApiResponse("با موفقیت بازیابی شد", cart));
     }
 
     @PostMapping("/items")
-    public ResponseEntity<ApiResponse> add(@Valid @AuthenticationPrincipal(expression = "id") Integer id, @RequestBody AddCartItemRequest request) {
+    public ResponseEntity<ApiResponse> add(@Valid @AuthenticationPrincipal(expression = "id") Long id, @RequestBody AddCartItemRequest request) {
         CartResponse cartResponse = cartService.addItem(id, request);
         return ResponseEntity.ok().body(new ApiResponse("با موفقیت اضافه شد", cartResponse));
 
@@ -35,7 +35,7 @@ class CartController {
     }
 
     @DeleteMapping("/items/{bookId}")
-    public ResponseEntity<ApiResponse> remove(@AuthenticationPrincipal(expression = "id") Integer id, @PathVariable Long bookId) {
+    public ResponseEntity<ApiResponse> remove(@AuthenticationPrincipal(expression = "id") Long id, @PathVariable Long bookId) {
 
         CartResponse cartResponse = cartService.removeItem(id, bookId);
         return ResponseEntity.ok().body(new ApiResponse("با موفقیت حذف  شد", cartResponse));
@@ -43,7 +43,7 @@ class CartController {
     }
 
     @DeleteMapping
-    public ResponseEntity<ApiResponse> clear(@AuthenticationPrincipal(expression = "id") Integer id) {
+    public ResponseEntity<ApiResponse> clear(@AuthenticationPrincipal(expression = "id") Long id) {
 
         CartResponse cartResponse = cartService.clearCart(id);
         return ResponseEntity.ok().body(new ApiResponse("با موفقیت حذف  شد", cartResponse));

@@ -1,6 +1,7 @@
 package com.ecommerce.main.category.entity;
 
 import com.ecommerce.main.book.entity.Book;
+import com.ecommerce.main.common.components.BaseEntity;
 import com.ecommerce.main.subcategory.entity.SubCategory;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,7 +17,7 @@ import java.util.Set;
 @Builder
 @Getter
 @Setter
-public class Category {
+public class Category extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long  id;

@@ -2,6 +2,7 @@ package com.ecommerce.main.subcategory.entity;
 
 import com.ecommerce.main.book.entity.Book;
 import com.ecommerce.main.category.entity.Category;
+import com.ecommerce.main.common.components.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -17,8 +18,8 @@ import java.util.Set;
 @Getter
 @Setter
 @DynamicUpdate
-@EntityListeners(AuditingEntityListener.class)
-public class SubCategory {
+
+public class SubCategory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -35,7 +35,7 @@ public class AddressMapper {
         address.setStaticNumber(request.staticNumber());
         address.setDescription(request.description());
     }
-    public Address toEntity(Integer userId, AddressRequest request) {
+    public Address toEntity(Long userId, AddressRequest request) {
         return Address.builder()
                 .userId(userId)
                 .province(request.province())

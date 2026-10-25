@@ -1,6 +1,6 @@
 package com.ecommerce.main.cart.entity;
 
-import com.ecommerce.main.cartItems.CartItems;
+import com.ecommerce.main.cartItems.CartItem;
 import com.ecommerce.main.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,7 +32,7 @@ public class Cart {
     private User user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItems> items = new ArrayList<>();
+    private List<CartItem> items = new ArrayList<>();
 
     @CreatedDate
     @Column(updatable = false)

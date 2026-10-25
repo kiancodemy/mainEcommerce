@@ -44,7 +44,7 @@ public class AdminBookController {
     }
 
     @PostMapping("uploadImage/{id}")
-    public ResponseEntity<ApiResponse> uploadImage(@PathVariable Integer id, @RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<ApiResponse> uploadImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) throws IOException {
 
 
         String url = bookService.uploadImage(file, id);

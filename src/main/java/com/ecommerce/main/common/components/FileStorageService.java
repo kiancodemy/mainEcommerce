@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
+/// saving files and paths into data base///
 @Service
 public class FileStorageService {
     private static final long MAX_SIZE = 3 * 1024 * 1024;

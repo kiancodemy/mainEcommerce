@@ -3,15 +3,14 @@ package com.ecommerce.main.book.entity;
 
 import com.ecommerce.main.book.enums.Languages;
 import com.ecommerce.main.category.entity.Category;
+import com.ecommerce.main.common.components.BaseEntity;
 import com.ecommerce.main.subcategory.entity.SubCategory;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 
 @DynamicUpdate
 @Entity
@@ -22,7 +21,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
-public class Book {
+public class Book extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,9 +76,5 @@ public class Book {
     @JoinColumn(name = "subCategory_id")
     private SubCategory subCategory;
 
-
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private Instant createdAt;
 
 }

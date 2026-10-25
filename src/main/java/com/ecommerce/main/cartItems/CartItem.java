@@ -2,6 +2,7 @@ package com.ecommerce.main.cartItems;
 
 import com.ecommerce.main.book.entity.Book;
 import com.ecommerce.main.cart.entity.Cart;
+import com.ecommerce.main.common.components.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +13,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartItems {
+public class CartItem extends BaseEntity {
 
 
     @Id

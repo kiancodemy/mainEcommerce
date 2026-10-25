@@ -7,7 +7,7 @@ import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-
+// loading the html templates
 @Component
 public class EmailTemplateLoader {
 
