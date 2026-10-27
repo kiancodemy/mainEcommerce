@@ -19,6 +19,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse> handleOrderNotFound(OrderNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(ex.getMessage(), null));
     }
+    @ExceptionHandler(PaymentGatewayException.class)
+    public ResponseEntity<ApiResponse> handleOrderNotFound(PaymentGatewayException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(ex.getMessage(), null));
+    }
 
     @ExceptionHandler(EmptyCartException.class)
     public ResponseEntity<ApiResponse> handleEmptyCart(EmptyCartException ex) {

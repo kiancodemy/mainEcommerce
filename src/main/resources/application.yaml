@@ -1,4 +1,9 @@
 spring:
+
+  http:
+    clients:
+      connect-timeout: 5s
+      read-timeout: 15s
   datasource:
     hikari:
       auto-commit: false
@@ -26,3 +31,6 @@ app:
     from: no-reply@ecommercewebsite
     base-url: ${APP_BASE_URL:https://ecommercewebsite.ir}
 
+zarinpal:
+  merchant-id: ${MERCHANT_ID:a1b2c3d4-e5f6-7890-abcd-ef1234567890}
+  callback-url: ${CALLBACK_URL:https://yoursite.com/api/payments/callback}

@@ -20,6 +20,8 @@ public class Order extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    private String AuthorityCode;
+
     @Column(nullable = false)
     private Long userId;
 
