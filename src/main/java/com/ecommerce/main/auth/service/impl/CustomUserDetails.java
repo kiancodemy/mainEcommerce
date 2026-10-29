@@ -14,7 +14,7 @@ import java.util.List;
 public class CustomUserDetails implements UserDetails {
     private final User user;
 
-    public Integer getId() {
+    public Long getId() {
         return user.getId();
     }
 

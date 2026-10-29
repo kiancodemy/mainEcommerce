@@ -19,8 +19,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse> handleOrderNotFound(OrderNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(ex.getMessage(), null));
     }
-    @ExceptionHandler(PaymentGatewayException.class)
-    public ResponseEntity<ApiResponse> handleOrderNotFound(PaymentGatewayException ex) {
+
+    @ExceptionHandler(RefreshTokenNotFound.class)
+    public ResponseEntity<ApiResponse> handleOrderNotFound(RefreshTokenNotFound ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(ex.getMessage(), null));
     }
 
