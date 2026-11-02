@@ -1,6 +1,7 @@
 package com.ecommerce.main.auth.service.impl;
 
 import com.ecommerce.main.user.entity.User;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-
+@Getter
 @RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
     private final User user;
@@ -17,6 +18,15 @@ public class CustomUserDetails implements UserDetails {
     public Long getId() {
         return user.getId();
     }
+
+    public String getName(){
+        return user.getName();
+    }
+      public String getLastName(){
+        return user.getLastName();
+    }
+
+
 
 
     @Override

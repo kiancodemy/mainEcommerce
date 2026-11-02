@@ -1,8 +1,8 @@
 package com.ecommerce.main.refreshToken.service;
 
-import com.ecommerce.main.refreshToken.dto.RefreshTokenResponse;
+import com.ecommerce.main.auth.dto.AuthResponse;
 
 public interface RefreshTokenService {
-   RefreshTokenResponse verifyRefreshToken(String refreshToken);
+   AuthResponse verifyRefreshToken(String refreshToken);
 
 }

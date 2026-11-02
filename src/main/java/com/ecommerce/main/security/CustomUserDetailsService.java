@@ -14,8 +14,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDetails user = userRepository.findByEmail(username).map(users->new CustomUserDetails(users)).orElseThrow(() -> new RuntimeException("ایمیل یافت نشد"));
-        return user;
+    public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        CustomUserDetails userDetails = userRepository.findByEmail(username).map(users -> new CustomUserDetails(users)).orElseThrow(() -> new RuntimeException("ایمیل یافت نشد"));
+        return userDetails;
     }
 }

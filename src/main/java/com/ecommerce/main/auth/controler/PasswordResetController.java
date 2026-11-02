@@ -1,11 +1,13 @@
 package com.ecommerce.main.auth.controler;
 
+import com.ecommerce.main.auth.dto.AuthResponse;
 import com.ecommerce.main.auth.dto.ForgotPasswordRequest;
 import com.ecommerce.main.auth.dto.ResetPasswordRequest;
 import com.ecommerce.main.auth.service.impl.PasswordResetServiceImpl;
 import com.ecommerce.main.common.dto.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +29,9 @@ public class PasswordResetController {
     @PostMapping("resetPassword")
     public ResponseEntity<ApiResponse> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
 
-        passwordResetService.resetPassword(resetPasswordRequest.token(), resetPasswordRequest.newPassword());
-        return ResponseEntity.ok().body(new ApiResponse("با موفقیت انجام شد", null));
+        AuthResponse authResponse = passwordResetService.resetPassword(resetPasswordRequest.token(), resetPasswordRequest.newPassword());
+
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE,authResponse.refreshToken().toString()).body(new ApiResponse("با موفقیت انجام شد", authResponse.JwtToken()));
 
     }
 

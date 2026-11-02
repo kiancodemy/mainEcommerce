@@ -19,6 +19,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse> handleOrderNotFound(OrderNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(ex.getMessage(), null));
     }
+    @ExceptionHandler(PasswordIsIncorrect.class)
+    public ResponseEntity<ApiResponse> handleOrderNotFound(PasswordIsIncorrect ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(ex.getMessage(), null));
+    }
 
     @ExceptionHandler(RefreshTokenNotFound.class)
     public ResponseEntity<ApiResponse> handleOrderNotFound(RefreshTokenNotFound ex) {
@@ -28,6 +32,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EmptyCartException.class)
     public ResponseEntity<ApiResponse> handleEmptyCart(EmptyCartException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(UserAlreadyExist.class)
+    public ResponseEntity<ApiResponse> handleEmptyCart(UserAlreadyExist ex) {
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(new ApiResponse(ex.getMessage(), null));
     }
 
     @ExceptionHandler(InvalidOrderStatusException.class)

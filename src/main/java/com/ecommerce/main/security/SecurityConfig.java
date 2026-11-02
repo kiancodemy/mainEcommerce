@@ -16,12 +16,13 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
+
     public SecurityFilterChain securityFilterChain(HttpSecurity http,JwtAuthenticationEntryPoint entryPoint,
                                                    JwtAccessDeniedHandler accessDeniedHandler) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())   // uses the CorsConfigurationSource bean
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**").permitAll().requestMatchers("/api/v1/orders/**"))
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**").permitAll())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(e -> e

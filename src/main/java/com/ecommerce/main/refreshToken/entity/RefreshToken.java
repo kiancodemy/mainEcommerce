@@ -20,14 +20,14 @@ public class RefreshToken extends BaseEntity {
     private Long id;
 
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(referencedColumnName = "id",name="user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(referencedColumnName = "id",name="user_id",nullable = false)
     private User user;
 
     @Column(nullable = false, unique = true)
     private String token;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private UUID familyId;
 
 

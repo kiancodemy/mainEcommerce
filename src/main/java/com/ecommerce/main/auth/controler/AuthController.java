@@ -1,19 +1,20 @@
 package com.ecommerce.main.auth.controler;
 
 import com.ecommerce.main.auth.dto.LoginRequest;
+import com.ecommerce.main.auth.dto.AuthResponse;
 import com.ecommerce.main.auth.dto.SignupRequest;
 import com.ecommerce.main.auth.service.impl.AuthServiceImpl;
 import com.ecommerce.main.common.dto.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("api/v1/auth/")
 public class AuthController {
     private final AuthServiceImpl authService;
@@ -21,19 +22,21 @@ public class AuthController {
 
     @PostMapping("signup")
     public ResponseEntity<ApiResponse> signup(@Valid @RequestBody SignupRequest request) {
-        authService.signup(request);
-        return ResponseEntity.ok().body(new ApiResponse("ثبت نام با موفقیت انجام شد", null));
+        AuthResponse signup = authService.signup(request);
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE,signup.refreshToken().toString()).body(new ApiResponse("ثبت نام با موفقیت انجام شد", signup.JwtToken()));
     }
 
     @PostMapping("login")
     public ResponseEntity<ApiResponse> login(@Valid @RequestBody LoginRequest request) {
-        String token = authService.login(request);
-        return ResponseEntity.ok().body(new ApiResponse("ورود با موفقیت انجام شد", token));
+        AuthResponse login = authService.login(request);
+
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, login.refreshToken().toString()).body(new ApiResponse("ورود با موفقیت انجام شد", login.JwtToken()));
     }
 
     @PostMapping("logout")
-    public ResponseEntity<ApiResponse> login() {
-
-        return ResponseEntity.ok().body(new ApiResponse("خروج با موفقیت انجام شد", ""));
+    public ResponseEntity<ApiResponse> logout(@CookieValue("refreshToken") String refreshToken) {
+        log.info("refresh token is "+ refreshToken);
+        AuthResponse authResponse = authService.logOut(refreshToken);
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, authResponse.refreshToken().toString()).body(new ApiResponse("خروج با موفقیت انجام شد", authResponse.JwtToken()));
     }
 }

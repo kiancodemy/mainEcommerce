@@ -38,8 +38,11 @@ public class JwtService {
     }
 
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(CustomUserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("name",userDetails.getName());
+        claims.put("lastName",userDetails.getLastName());
+        claims.put("email",userDetails.getUsername());
         claims.put("roles", userDetails.getAuthorities());
         return Jwts.builder()
                 .claims(claims)

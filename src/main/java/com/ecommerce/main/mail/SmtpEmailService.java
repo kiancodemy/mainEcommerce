@@ -19,6 +19,7 @@ import java.util.Map;
 public class SmtpEmailService implements EmailService {
     private final EmailTemplateLoader emailTemplateLoader;
     private final JavaMailSender mailSender;
+
     @Value("${app.mail.from}")
     private String from;
 

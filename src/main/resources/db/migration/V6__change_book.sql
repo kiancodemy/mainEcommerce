@@ -1,8 +1,0 @@
-ALTER TABLE books
-    ALTER COLUMN language TYPE VARCHAR(255) USING (language::VARCHAR(255));
-
-ALTER TABLE books
-    ALTER COLUMN pages SET NOT NULL;
-
-ALTER TABLE books
-    ALTER COLUMN publication_year SET NOT NULL;

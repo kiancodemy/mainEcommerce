@@ -1,4 +1,4 @@
-package com.ecommerce.main.user.enums;
+package com.ecommerce.main.user.dto;
 
 public enum Role {
     ADMIN,

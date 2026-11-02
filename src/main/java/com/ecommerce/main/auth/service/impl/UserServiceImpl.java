@@ -1,10 +1,10 @@
 package com.ecommerce.main.auth.service.impl;
 
 import com.ecommerce.main.auth.service.UserService;
+import com.ecommerce.main.common.exception.UserAlreadyExist;
 import com.ecommerce.main.user.entity.User;
-import com.ecommerce.main.user.enums.Role;
+import com.ecommerce.main.user.dto.Role;
 import com.ecommerce.main.user.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,21 +18,18 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void createUser(String email, String passWord) {
+    public User createUser(String email, String passWord) {
         if (existsByEmail(email)) {
-            throw new RuntimeException("ایمیل قبلا استفاده شده");
+            throw new UserAlreadyExist();
         }
         String encodedPassword = passwordEncoder.encode(passWord);
         User newUser = User.builder().email(email).password(encodedPassword).role(Role.USER).build();
-        userRepository.save(newUser);
+       return  userRepository.save(newUser);
     }
 
     @Override
     public void updatePassword(User user, String updatedPassword) {
         user.setPassword(passwordEncoder.encode(updatedPassword));
-
-
-
     }
 
 

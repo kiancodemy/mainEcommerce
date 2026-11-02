@@ -1,7 +1,7 @@
 package com.ecommerce.main.user.entity;
 
 import com.ecommerce.main.common.components.BaseEntity;
-import com.ecommerce.main.user.enums.Role;
+import com.ecommerce.main.user.dto.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
