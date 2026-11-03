@@ -31,7 +31,7 @@ public class FileStorageService {
 
         InputStream in = file.getInputStream();
         if (ImageIO.read(in) == null) {
-            throw new InvalidFileException("File is not a valid image");
+            throw new InvalidFileException("فقظ قادر به ارسال عکس خواهید بود");
         }
 
         // 1. make a new name
@@ -57,7 +57,7 @@ public class FileStorageService {
     // if size of image is more than 3MB
     private void calculateSize(MultipartFile file) {
         if (file.getSize() > MAX_SIZE) {
-            throw new InvalidFileException("Image must be smaller than 3 MB");
+            throw new InvalidFileException("حجم فایل باید کمتر از ۳ مگابایت باشد");
         }
     }
 

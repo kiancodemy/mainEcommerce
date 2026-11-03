@@ -1,0 +1,5 @@
+ALTER TABLE orders
+    ADD expired_at TIMESTAMP(6) WITHOUT TIME ZONE;
+
+ALTER TABLE orders
+    ALTER COLUMN expired_at SET NOT NULL;

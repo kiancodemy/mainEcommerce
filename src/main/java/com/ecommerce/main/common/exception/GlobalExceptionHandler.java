@@ -19,6 +19,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse> handleOrderNotFound(OrderNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(ex.getMessage(), null));
     }
+    @ExceptionHandler(ExpiredException.class)
+    public ResponseEntity<ApiResponse> handleOrderNotFound(ExpiredException ex) {
+        return ResponseEntity.status(HttpStatus.GONE).body(new ApiResponse(ex.getMessage(), null));
+    }
     @ExceptionHandler(PasswordIsIncorrect.class)
     public ResponseEntity<ApiResponse> handleOrderNotFound(PasswordIsIncorrect ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(ex.getMessage(), null));

@@ -3,8 +3,10 @@ package com.ecommerce.main.subcategory.service.impl;
 import com.ecommerce.main.category.entity.Category;
 import com.ecommerce.main.category.repository.CategoryRepository;
 import com.ecommerce.main.subcategory.dto.CreateSubCategory;
+import com.ecommerce.main.subcategory.dto.SubCategoryResponse;
 import com.ecommerce.main.subcategory.dto.UpdateSubCategory;
 import com.ecommerce.main.subcategory.entity.SubCategory;
+import com.ecommerce.main.subcategory.mapper.SubCategoryMapper;
 import com.ecommerce.main.subcategory.repository.SubCategoryRepository;
 import com.ecommerce.main.subcategory.service.SubCategoryService;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +18,11 @@ import java.util.List;
 @Transactional
 @Service
 @RequiredArgsConstructor
+
 public class SubCategoryServiceImpl implements SubCategoryService {
     private final SubCategoryRepository subCategoryRepository;
     private final CategoryRepository categoryRepository;
+    private final SubCategoryMapper subCategoryMapper;
 
     @Override
     public SubCategory createsubCategory(CreateSubCategory request) {
@@ -40,7 +44,6 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     }
 
     @Override
-
     public void activateSubCategory(Long  id) {
         SubCategory subCategory = subCategoryRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("ریز دسته یافت نشد"));
         subCategory.setStatus(true);
@@ -48,8 +51,9 @@ public class SubCategoryServiceImpl implements SubCategoryService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<SubCategory> getAllSubCategories() {
-        return subCategoryRepository.findAll();
+    public List<SubCategoryResponse> getAllSubCategories() {
+        List<SubCategory> all = subCategoryRepository.findAll();
+       return subCategoryMapper.toAllSubCategoryResponse(all);
     }
 
     @Override

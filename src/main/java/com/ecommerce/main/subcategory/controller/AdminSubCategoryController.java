@@ -1,16 +1,14 @@
 package com.ecommerce.main.subcategory.controller;
 
-import com.ecommerce.main.common.components.FileStorageService;
 import com.ecommerce.main.common.dto.ApiResponse;
 import com.ecommerce.main.subcategory.dto.CreateSubCategory;
 import com.ecommerce.main.subcategory.dto.SubCategoryResponse;
 import com.ecommerce.main.subcategory.dto.UpdateSubCategory;
-import com.ecommerce.main.subcategory.entity.SubCategory;
-import com.ecommerce.main.subcategory.mapper.SubCategoryMapper;
 import com.ecommerce.main.subcategory.service.impl.SubCategoryServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,9 +16,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/admin/subcategory/")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminSubCategoryController {
     private final SubCategoryServiceImpl subCategoryService;
-    private final SubCategoryMapper subCategoryMapper;
 
     @PostMapping
     public ResponseEntity<ApiResponse> createSubCategory(@Valid @RequestBody CreateSubCategory request) {
@@ -42,10 +40,10 @@ public class AdminSubCategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse> activateSubCategory() {
-        List<SubCategory> allSubCategory = subCategoryService.getAllSubCategories();
-        List<SubCategoryResponse> allCategoryResponse = subCategoryMapper.toAllSubCategoryResponse(allSubCategory);
-        return ResponseEntity.ok().body(new ApiResponse("بازیابی شد", allCategoryResponse));
+    public ResponseEntity<ApiResponse> getAllSubCategories() {
+        List<SubCategoryResponse> allSubCategories = subCategoryService.getAllSubCategories();
+
+        return ResponseEntity.ok().body(new ApiResponse("بازیابی شد", allSubCategories));
     }
 
     @PutMapping

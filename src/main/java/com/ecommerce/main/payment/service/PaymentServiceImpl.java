@@ -26,7 +26,7 @@ public class PaymentServiceImpl{
 
 
     public String createPayment(PaymentType paymentType, Long id) {
-        Order order = orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
+        Order order = orderRepository.findByIdLocked(id).orElseThrow(OrderNotFoundException::new);
         PaymentGateway paymentGateway = selectPaymentGateway(paymentType);
         PaymentRequest paymentRequest = new PaymentRequest(order.getTotalPrice().intValue());
         return paymentGateway.creatPayment(paymentRequest, order);

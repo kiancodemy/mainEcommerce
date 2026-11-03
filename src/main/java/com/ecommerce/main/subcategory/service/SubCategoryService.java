@@ -1,6 +1,7 @@
 package com.ecommerce.main.subcategory.service;
 
 import com.ecommerce.main.subcategory.dto.CreateSubCategory;
+import com.ecommerce.main.subcategory.dto.SubCategoryResponse;
 import com.ecommerce.main.subcategory.dto.UpdateSubCategory;
 import com.ecommerce.main.subcategory.entity.SubCategory;
 
@@ -13,7 +14,7 @@ public interface SubCategoryService {
 
     void activateSubCategory(Long  id);
 
-    List<SubCategory> getAllSubCategories();
+    List<SubCategoryResponse> getAllSubCategories();
 
     void updateSubCategory(UpdateSubCategory request);
 

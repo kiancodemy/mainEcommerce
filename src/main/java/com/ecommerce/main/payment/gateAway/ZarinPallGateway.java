@@ -1,5 +1,6 @@
 package com.ecommerce.main.payment.gateAway;
 
+import com.ecommerce.main.common.exception.ExpiredException;
 import com.ecommerce.main.common.exception.OrderNotFoundException;
 import com.ecommerce.main.common.exception.PaymentGatewayException;
 import com.ecommerce.main.order.entity.Order;
@@ -8,6 +9,7 @@ import com.ecommerce.main.order.repository.OrderRepository;
 import com.ecommerce.main.payment.dto.PaymentRequest;
 import com.ecommerce.main.payment.dto.PaymentResult;
 import com.ecommerce.main.payment.dto.VerifyRequest;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 
+import java.time.Instant;
 import java.util.Map;
 
 @Component
@@ -47,6 +50,10 @@ public class ZarinPallGateway implements PaymentGateway { // adjust to your inte
      */
     @Override
     public String creatPayment(PaymentRequest req,Order order) {
+
+        if(order.getExpiredAt().isBefore(Instant.now())){
+            throw new ExpiredException("سفارش منقضی شده و قابل پرداخت نیست");
+        }
         Map<String, Object> body = Map.of(
                 "merchant_id", merchantId,
                 "amount", req.amount(),          // Rial by default. For Toman also add: "currency", "IRT"
@@ -72,7 +79,6 @@ public class ZarinPallGateway implements PaymentGateway { // adjust to your inte
      * Step 2 (after the user returns to your callback with Status=OK):
      * confirms the payment with ZarinPal and returns the bank reference id.
      */
-
     @Override
     public PaymentResult verifyPayment(VerifyRequest request) {
         Order order = findAndSendOrderAmount(request);
@@ -132,7 +138,7 @@ public class ZarinPallGateway implements PaymentGateway { // adjust to your inte
     }
 
     /// update order to payed before verification
-    private Order findAndSendOrderAmount(VerifyRequest verifyRequest) {
+    private @NonNull Order findAndSendOrderAmount(VerifyRequest verifyRequest) {
         Order order = orderRepository.findByAuthorityCode(verifyRequest.authority()).orElseThrow(OrderNotFoundException::new);
         return order;
     }

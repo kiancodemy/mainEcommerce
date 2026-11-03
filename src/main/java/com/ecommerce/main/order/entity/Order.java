@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 
 @Getter
@@ -14,7 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 @DynamicUpdate
 @AllArgsConstructor
+
 @Entity
+@Table(name = "orders")
 public class Order extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -40,6 +43,10 @@ public class Order extends BaseEntity {
 
     @Column(nullable = false)
     private BigDecimal totalPrice;
+
+
+    @Column(nullable = false)
+    private Instant expiredAt;
 
     public void addItem(OrderItem orderItem) {
         this.Items.add(orderItem);
