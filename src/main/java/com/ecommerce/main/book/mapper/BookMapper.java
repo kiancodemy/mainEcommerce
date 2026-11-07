@@ -10,6 +10,19 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BookMapper {
+    public BookListItem toListItem(Book book) {
+        return new BookListItem(
+                book.getId(),
+                book.getTitle(),
+                book.getSlug(),
+                fileStorageService.toPublicUrl(book.getCoverImageUrl()),
+                book.getShortDescription(),
+                book.getEffectivePrice(),
+                book.getAuthors().stream().map(Author::getName).toList(),
+                book.getStock() > 0
+        );
+    }
+
 
     public Book toCreateEntity(CreateBookRequest req, Category category, SubCategory subCategory) {
         return Book.builder()

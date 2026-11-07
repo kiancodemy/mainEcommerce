@@ -68,6 +68,7 @@ public class CartServiceImpl implements CartService {
 
         return cartMapper.toCartResponse(cart);}
 
+    /// CLEAR THE CARD AFTER MAKING THE ORDER ///
     @Override
     public CartResponse clearCart(Long  id) {
         Cart cart = cartRepositroy.findByUserId(id).orElse(null);
@@ -83,11 +84,14 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional(readOnly = true)
     public CartResponse getCart(Long  id) {
-        cartRepositroy.findByUserId(id).orElse(null);
-        return cartMapper.empty();
+        Cart cart = cartRepositroy.findByUserId(id).orElse(null);
+        if(cart==null){
+            return cartMapper.empty();
+        }
+        return cartMapper.toCartResponse(cart);
     }
 
-    //CREATE NEW CARD FOR USER IF HE IT IS HS HIS FIRST TIME TO BUT SOMETINHG///
+    /// CREATE NEW CARD FOR USER IF HE IT IS HS HIS FIRST TIME TO BUY SOMETHING / ///
     private Cart createCard(Long  id) {
         Cart cart = new Cart();
         cart.setUser(userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("کاربر یافت نشد")));

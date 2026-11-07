@@ -56,7 +56,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         }
         userService.updatePassword(resetPassToken.getUser(), newPassword);
         resetPassToken.setUsed(true);
-        /// clear all refreshTokens to logout all other users of this account//
+        /// clear all refreshTokens to logout all other users of this account //
         refreshTokenService.clearAllRefreshTokens(resetPassToken.getUser().getId());
         return generateRefreshTokenCookieAndJwtToken(new CustomUserDetails(resetPassToken.getUser()));
     }

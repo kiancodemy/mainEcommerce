@@ -9,6 +9,7 @@ import com.ecommerce.main.order.repository.OrderRepository;
 import com.ecommerce.main.payment.dto.PaymentRequest;
 import com.ecommerce.main.payment.dto.PaymentResult;
 import com.ecommerce.main.payment.dto.VerifyRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -20,12 +21,13 @@ import org.springframework.web.client.RestClientException;
 import java.time.Instant;
 import java.util.Map;
 
+@Slf4j
 @Component
 public class ZarinPallGateway implements PaymentGateway { // adjust to your interface name
 
     private static final String REQUEST_URL = "https://sandbox.zarinpal.com/pg/v4/payment/request.json";
     private static final String VERIFY_URL = "https://sandbox.zarinpal.com/pg/v4/payment/verify.json";
-    private static final String START_PAY_URL = "https://sanbox.zarinpal.com/pg/StartPay/";
+    private static final String START_PAY_URL = "https://sandbox.zarinpal.com/pg/StartPay/";
 
     private static final ParameterizedTypeReference<Map<String, Object>> MAP_TYPE =
             new ParameterizedTypeReference<>() {
@@ -49,11 +51,11 @@ public class ZarinPallGateway implements PaymentGateway { // adjust to your inte
      * Step 1: asks ZarinPal for a payment session and returns the URL to redirect the user to.
      */
     @Override
-    public String creatPayment(PaymentRequest req,Order order) {
+    public String creatPayment(PaymentRequest req, Order order) {
 
-        if(order.getExpiredAt().isBefore(Instant.now())){
+        /*if(order.getExpiredAt().isBefore(Instant.now())){
             throw new ExpiredException("سفارش منقضی شده و قابل پرداخت نیست");
-        }
+        }*/
         Map<String, Object> body = Map.of(
                 "merchant_id", merchantId,
                 "amount", req.amount(),          // Rial by default. For Toman also add: "currency", "IRT"
@@ -91,6 +93,7 @@ public class ZarinPallGateway implements PaymentGateway { // adjust to your inte
 
         Map<String, Object> data = asMap(post(VERIFY_URL, body).get("data"));
 
+
         // 100 = verified now, 101 = this payment was already verified earlier
         if (!hasCode(data, 100) && !hasCode(data, 101)) {
             throw new PaymentGatewayException("پرداخت تایید نشد");
@@ -116,13 +119,10 @@ public class ZarinPallGateway implements PaymentGateway { // adjust to your inte
                     .body(body)
                     .retrieve()
                     .body(MAP_TYPE);
-
-            if (response == null) {
-                throw new PaymentGatewayException("پاسخی از درگاه پرداخت دریافت نشد");
-            }
             return response;
+
+
         } catch (RestClientException ex) {
-            // Timeout, connection failure, or a 4xx/5xx response
             throw new PaymentGatewayException("ارتباط با درگاه پرداخت برقرار نشد");
         }
     }

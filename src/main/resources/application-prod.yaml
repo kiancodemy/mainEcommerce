@@ -5,6 +5,3 @@ spring:
     password: ${DB_PASSWORD}
   jpa:
     show-sql: false
-app:
-  cors:
-    allowed-origin: ${APP_CORS_ALLOWED_ORIGIN:*}

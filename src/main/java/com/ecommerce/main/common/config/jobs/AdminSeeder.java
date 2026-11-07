@@ -31,7 +31,7 @@ public class AdminSeeder implements ApplicationRunner {
             log.info("User with email {} already exists", email);
             return;
         }
-        User newUser = User.builder().email(email).password(passwordEncoder.encode(passwordEncoder.encode(password))).role(Role.ADMIN).build();
+        User newUser = User.builder().email(email).password(passwordEncoder.encode(password)).role(Role.ADMIN).build();
         userRepository.save(newUser);
         log.info("User with email {} created", email);
 

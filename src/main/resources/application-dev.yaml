@@ -32,4 +32,4 @@ server:
 
 jwt:
   secret: 1868*^*^(*&(NNB?><<M>?<<>?L<""?JS
-  expiration: 86400000   # 1 day in ms
+  expiration: 9000000   # 15 MINUTES day in ms

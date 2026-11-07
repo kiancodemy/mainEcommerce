@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@PreAuthorize("hasRole('USER')")
+@PreAuthorize("hasAnyRole('ADMIN','USER')")
 @RequestMapping("api/v1/payment")
 @Tag(name="payment process for user")
 @RequiredArgsConstructor

@@ -1,4 +1,9 @@
 package com.ecommerce.main.book.dto;
 
-public record BookResponse() {
+import java.math.BigDecimal;
+
+public record BookResponse(String title,
+                           BigDecimal price,
+                           BigDecimal costPrice,
+                           String coverImageUrl) {
 }

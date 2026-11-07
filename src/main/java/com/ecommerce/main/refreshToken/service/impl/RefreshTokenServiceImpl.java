@@ -4,13 +4,12 @@ import com.ecommerce.main.auth.dto.AuthResponse;
 import com.ecommerce.main.auth.service.impl.CustomUserDetails;
 import com.ecommerce.main.auth.service.impl.JwtService;
 import com.ecommerce.main.common.exception.RefreshTokenNotFound;
-import com.ecommerce.main.refreshToken.dto.RefreshTokenResponse;
 import com.ecommerce.main.refreshToken.entity.RefreshToken;
 import com.ecommerce.main.refreshToken.repository.RefreshTokenRepository;
 import com.ecommerce.main.refreshToken.service.RefreshTokenService;
-import com.ecommerce.main.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +28,9 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     private static final String REFRESH_PATH = "/api/v1/auth";
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtService jwtService;
+
+    @Value("${spring.profiles.active}")
+    private String activeProfile;
 
 
     @Override
@@ -70,7 +72,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     public ResponseCookie generateRefreshTokenCookie(String token) {
         return ResponseCookie.from("refreshToken", token)
                 .httpOnly(true)
-                .secure(true)
+                .secure(!activeProfile.equals("dev"))
                 .sameSite("Strict")
                 .path(REFRESH_PATH)
                 .maxAge(REFRESH_TTL)
@@ -82,7 +84,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         refreshTokenRepository.delete(refreshToken);
         return ResponseCookie.from("refreshToken", "")
                 .httpOnly(true)
-                .secure(true)
+                .secure(!activeProfile.equals("dev"))
                 .sameSite("Strict")
                 .path(REFRESH_PATH)
                 .maxAge(Duration.ZERO)

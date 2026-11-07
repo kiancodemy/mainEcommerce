@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -23,7 +24,7 @@ public class Order extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String AuthorityCode;
+    private String authorityCode;
 
     @Column(nullable = false)
     private Long userId;
@@ -39,7 +40,8 @@ public class Order extends BaseEntity {
     private ShippingAddress shippingAddress;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<OrderItem> Items;
+    @Builder.Default
+    private List<OrderItem> Items=new ArrayList<>();
 
     @Column(nullable = false)
     private BigDecimal totalPrice;

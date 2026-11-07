@@ -105,7 +105,7 @@ public class OrderServiceImpl implements OrderService {
     //// update number of book in stock before confirming the order////
     private void updateBookStockBeforePaying(OrderItem orderItem) {
         Long id = orderItem.getBook().getId();
-        Book byIdLocked = bookRepository.findByIdLocked(id);
+        Book byIdLocked = bookRepository.findByIdLocked(id).orElseThrow(()->new UsernameNotFoundException("کتاب یافت نشد"));
         int stock = byIdLocked.getStock();
         boolean ifAvailable = stock >= orderItem.getQuantity();
         if (!ifAvailable) {
@@ -123,7 +123,7 @@ public class OrderServiceImpl implements OrderService {
     //// update number of book in stock if user forgot to pay after limited amount of time or canceled the payment////
     private void updateBookStockIfNotPaid(OrderItem orderItem) {
         Long id = orderItem.getBook().getId();
-        Book byIdLocked = bookRepository.findByIdLocked(id);
+        Book byIdLocked = bookRepository.findByIdLocked(id).orElseThrow(()->new UsernameNotFoundException("کتاب یافت نشد"));
 
         byIdLocked.setStock(byIdLocked.getStock() + orderItem.getQuantity());
         bookRepository.save(byIdLocked);

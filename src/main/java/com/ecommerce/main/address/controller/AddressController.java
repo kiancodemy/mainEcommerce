@@ -4,6 +4,8 @@ import com.ecommerce.main.address.dto.AddressRequest;
 import com.ecommerce.main.address.dto.AddressResponse;
 import com.ecommerce.main.address.service.impl.AddressServiceImpl;
 import com.ecommerce.main.common.dto.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,20 +17,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/addresses")
-@PreAuthorize("hasRole('USER')")
+@RequestMapping("/api/v1/address")
+@Tag(name="address controller")
+@PreAuthorize("hasAnyRole('USER','ADMIN')")
 @RequiredArgsConstructor
 public class AddressController {
 
     private final AddressServiceImpl service;
 
     // Assumes your authenticated principal exposes getId() returning the user's Integer id.
+    @Operation(summary = "find all user address")
     @GetMapping
     public ResponseEntity<ApiResponse> findAll(@AuthenticationPrincipal(expression = "id") Long userId) {
         List<AddressResponse> all = service.findAll(userId);
         return ResponseEntity.ok().body(new ApiResponse("success", all));
     }
 
+    @Operation(summary = "find specific user address")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> findOne(@AuthenticationPrincipal(expression = "id") Long userId,
                                                @PathVariable Long id) {
@@ -36,6 +41,7 @@ public class AddressController {
         return ResponseEntity.ok().body(new ApiResponse("success", findAddress));
     }
 
+    @Operation(summary = "create new  address")
     @PostMapping
     public ResponseEntity<ApiResponse> create(@AuthenticationPrincipal(expression = "id") Long userId,
                                               @Valid @RequestBody AddressRequest request) {
@@ -43,6 +49,7 @@ public class AddressController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("success", updatedAddress));
     }
 
+    @Operation(summary = "update address")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> update(@AuthenticationPrincipal(expression = "id") Long userId,
                                               @PathVariable Long id,
@@ -53,6 +60,7 @@ public class AddressController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "delet address")
     public ResponseEntity<ApiResponse> delete(@AuthenticationPrincipal(expression = "id") Long userId,
                                               @PathVariable Long id) {
         service.delete(userId, id);

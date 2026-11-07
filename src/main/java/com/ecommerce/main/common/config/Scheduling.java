@@ -24,16 +24,16 @@ import java.util.Optional;
 public class Scheduling {
     private final RefreshTokenRepository refreshTokenRepository;
     private final OrderRepository orderRepository;
-    private final OrderServiceImpl orderService;
 
-    /// delete all revoked token in order to clean the data base
-    @Scheduled(cron = "0 0 /2 * * *")
+    /// delete all revoked token in order to clean the database ////
+    @Scheduled(cron = "0 0 */2 * * *")
     public void deleteUsedRefreshToken() {
         refreshTokenRepository.deleteAllRevoked();
+        log.info("Deleted {} refresh tokens", refreshTokenRepository.count());
     }
 
     ///  cancel orders if not paid ////
-    @Scheduled(cron = "0 0 /2 * * *")
+    @Scheduled(cron = "0 0 */2 * * *")
     public void cancelOrdersIfNotPaid() {
         List<Long> expiredOrder = orderRepository.findExpiredOrder(Instant.now());
         for (Long orderId : expiredOrder) {
@@ -46,6 +46,7 @@ public class Scheduling {
             }
 
         }
+        log.info("{} unpaid orders has been cancelled", expiredOrder.size() );
 
     }
 }

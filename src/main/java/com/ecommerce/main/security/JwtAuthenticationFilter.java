@@ -1,5 +1,6 @@
 package com.ecommerce.main.security;
 
+import com.ecommerce.main.auth.service.impl.CustomUserDetails;
 import com.ecommerce.main.auth.service.impl.JwtService;
 import io.jsonwebtoken.JwtException; // jjwt; adjust if you use another library
 import jakarta.servlet.FilterChain;
@@ -7,11 +8,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -20,11 +20,12 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
     private final JwtService jwtService;
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -48,13 +49,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 if (jwtService.isTokenValid(token) && !jwtService.isTokenExpired(token)) {
                     String username = jwtService.extractUsername(token);
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                    CustomUserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                     var auth = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
 
                     // 4. Mark this request as logged in
                     SecurityContextHolder.getContext().setAuthentication(auth);
+                    log.info("user roles is {}", userDetails.getAuthorities());
                 }
             } catch (JwtException | IllegalArgumentException | UsernameNotFoundException ex) {
                 // Expired, malformed or tampered token, or deleted user:

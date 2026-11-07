@@ -35,16 +35,16 @@ public class FileStorageService {
         }
 
         // 1. make a new name
-        String name = UUID.randomUUID() + ".jpg";
+        String imagId = UUID.randomUUID() + ".jpg";
 
-        // 2. make sure the folder exists: uploads/folder
+        // 2. make sure the folder exists: uploads/folder=> for example folder= (book)
         Path folderPath = root.resolve(folder);
 
         Files.createDirectories(folderPath);
 
-        file.transferTo(folderPath.resolve(name));
+        file.transferTo(folderPath.resolve(imagId));
 
-        return toPublicUrl(name,folder);
+        return toPublicUrl(imagId,folder);
 
     }
 
